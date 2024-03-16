@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Telegram Bot Messages</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .customer-service-text {
+      text-align: center;
+      color: #640040;
+      font-size: 24px;
+      margin-top: 20px; /* Adjust as needed to bring the text closer to the banner */
+    }
+    .chat-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 50px;  /* Adjust as needed to provide space for the customer service text */
+      overflow-y: auto;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    .message-container {
+      border: 2px solid white;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      background-color:whitegrey ;
+    }
+  </style>
+</head>
+<body>
+  <div class="customer-service-text">ADMIN-Pannel</div>
+
+  <div class="chat-container" id="chat">
+    <!-- Messages will be displayed here -->
+  </div>
+  <script>
+    // Add your JavaScript here
+    const apiToken = '7071893116:AAHBXquaPnyTeoC5gCpprcUFvC2vQIjoM4g'; // Replace with your actual API token
+    const chatId = '7155441629'; // Replace with your actual chat ID
+
+    async function fetchMessages() {
+      const response = await fetch(`https://api.telegram.org/bot${apiToken}/getUpdates?chat_id=${chatId}`);
+      const data = await response.json();
+      return data.result;
+    }
+
+    function displayMessages(messages) {
+      const messagesContainer = document.getElementById('chat');
+      messagesContainer.innerHTML = ''; // Clear previous messages
+      messages.forEach(message => {
+        const msgElement = document.createElement('div');
+        msgElement.className = 'message-container';
+        msgElement.textContent = message.message.text; // Assuming 'text' is the field in the message object
+        messagesContainer.appendChild(msgElement);
+      });
+      messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the bottom
+    }
+
+    async function init() {
+      try {
+        const messages = await fetchMessages();
+        displayMessages(messages);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    }
+
+    // Initialize the message fetching
+    init();
+
+    // Optional: Set an interval to periodically refresh the messages
+    setInterval(init, 10000); // Refresh every 10 seconds
+  </script>
+</body>
+</html>

